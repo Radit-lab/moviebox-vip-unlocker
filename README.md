@@ -18,10 +18,14 @@ All MovieBox mirrors in one install:
 
 ## 📥 Install
 
+### ⬇️ Quick download
+
+Grab the latest zip from **[Releases](https://github.com/Radit-lab/moviebox-vip-unlocker/releases)**, extract it, then:
+
 1. Open `chrome://extensions` (or `edge://extensions`)
 2. Enable **Developer mode** (top-right)
 3. Click **Load unpacked**
-4. Select this folder
+4. Select the extracted folder
 5. Open MovieBox and play anything — done ✅
 
 ## 🎛️ Usage
