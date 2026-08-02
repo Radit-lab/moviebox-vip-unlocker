@@ -1,41 +1,56 @@
-# MovieBox VIP Unlocker (personal-use extension)
+# 🎬 MovieBox VIP Unlocker
 
-Stops me from having to open DevTools every single time I want to watch something. Does three things automatically:
+> Watch MovieBox in 1080p. No paywall. No trial lock. No DevTools.
 
-1. **Stream unlock** — rewrites `X-Vip-Restrict` to `0` on every `/subject/play` request (via `declarativeNetRequest`), on both `themoviebox.xyz` and `h5-api.aoneroom.com`.
-2. **Paywall kill** — removes the "Unlock Premium Benefits" modal and the trial countdown bar as soon as they appear, and resumes playback if the trial handler paused it.
-3. **1080p upgrade** — reads your current episode from `playHistory`, with a fallback to the page's `__NUXT__` payload when history is empty, and hot-swaps the video element to the signed 1080p MP4 URL. Re-arms automatically when you switch episodes.
+A tiny Chrome extension that handles the premium unlock automatically so you can just hit play.
 
-No account, no token, no payment. Applies automatically on every `themoviebox.xyz` page.
+## ✨ Features
 
-## Install (Chrome / Edge / Brave)
+- **🚀 Stream unlock** — play requests get the VIP restriction removed at the network level
+- **🔓 Paywall kill** — premium modal and 5-minute trial bar removed instantly
+- **📺 1080p upgrade** — every stream auto-switches to the best available quality
 
-1. Open `chrome://extensions` (or `edge://extensions`).
-2. Enable **Developer mode** (top-right toggle).
-3. Click **Load unpacked**.
-4. Select this folder (the one containing `manifest.json`).
-5. Open MovieBox and play any episode. Done.
+## 🌐 Works On
 
-## How it works
+All MovieBox mirrors in one install:
 
-| File | Role |
+`themoviebox.xyz` · `netfilm.world` · `123movienow.cc` · `themoviebox.app` · `movieboxonline.net` · `moviebox.co` · `downloadmoviebox.com`
+
+## 📥 Install
+
+1. Open `chrome://extensions` (or `edge://extensions`)
+2. Enable **Developer mode** (top-right)
+3. Click **Load unpacked**
+4. Select this folder
+5. Open MovieBox and play anything — done ✅
+
+## 🎛️ Usage
+
+Click the extension icon to open the popup. One toggle controls everything — flip it off anytime to disable all features.
+
+## 🛠️ How It Works
+
+| File | Job |
 |---|---|
-| `manifest.json` | MV3 manifest, host permissions, DNR ruleset, content script |
-| `rules.json` | DNR rules: set `X-Vip-Restrict: 0` on play API calls |
-| `content.js` | Watchdog for modal/trial-bar kill + 1080p stream upgrade |
+| `manifest.json` | Extension setup + permissions |
+| `rules.json` | Rewrites the VIP-restrict header on play requests |
+| `inject.js` | Kills the trial lock before the site starts it |
+| `content.js` | Removes paywall UI + upgrades to 1080p |
+| `background.js` | Enables/disables everything from the toggle |
+| `popup.*` | The little popup UI |
 
-The header rewrite happens at the network layer (`declarativeNetRequest`), so it works even for requests made by the site's own fetch interceptor. The content script handles the DOM-level paywall and the quality upgrade.
+## 📦 Tech
 
-## Changelog
+Manifest V3 · JavaScript · Chrome / Edge / Brave
 
-- **v1.4.0** — Fixed toggle: OFF now truly disables everything. Added `background.js` service worker that enables/disables the DNR ruleset (header rewrite) on toggle; inject.js reads the toggle via a localStorage bridge (MAIN world can't use chrome.storage) so the trial-lock kill also stands down. Before this, OFF only stopped the modal killer + 1080p upgrade while the header rewrite and trial kill kept running.
-- **v1.3.0** — Popup UI + master ON/OFF toggle (chrome.storage), branded icons, popup status panel. Multi-mirror support: generic DNR rule + host permissions cover all known MovieBox mirror domains (netfilm.world, 123movienow.cc, themoviebox.app, movieboxonline.net, moviebox.co, downloadmoviebox.com) plus all *.aoneroom.com. One install works on every mirror.
-- **v1.2.0** — 5-minute trial lock killed at the source. Added `inject.js` (MAIN world, document_start) that rewrites the `/detail` API response: `previewSeconds: 0`, `freeEpisodeCount: 99999`, `ruleType: 0`. Renamed to **MOVIE BOX BYPASS BY RADIT**.
-- **v1.1** — Fixed fresh-visit bug: 1080p upgrade now works with empty `playHistory` (falls back to `__NUXT__` payload for subjectId). Upgrade re-arms on episode change. Broadened host permissions + added second DNR rule for `h5-api.aoneroom.com`.
-- **v1.0** — Initial version.
+## 📄 Changelog
 
-## Notes
+**v1.4.0** — Fixed the toggle so OFF actually disables everything. Added service worker control.
+**v1.3.0** — Popup UI + master toggle + multi-mirror support.
+**v1.2.0** — Trial lock killed at the source. Renamed to MovieBox VIP Unlocker.
+**v1.1** — Fixed 1080p on fresh visits (empty history fallback).
+**v1.0** — Initial release.
 
-- Session-only effect per page load — each page load re-applies it automatically, nothing manual.
-- If a show isn't auto-upgrading on the very first play, start any episode once; the upgrade polls every 3s and will pick it up.
-- For other domain mirrors of MovieBox, add the domain to `host_permissions` and the content script `matches`.
+---
+
+*Personal-use project. For educational purposes only.*
