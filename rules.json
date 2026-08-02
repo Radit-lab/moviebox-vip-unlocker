@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "priority": 1,
+    "action": {
+      "type": "modifyHeaders",
+      "requestHeaders": [
+        {
+          "header": "X-Vip-Restrict",
+          "operation": "set",
+          "value": "0"
+        }
+      ]
+    },
+    "condition": {
+      "urlFilter": "wefeed-h5api-bff/subject/play",
+      "resourceTypes": ["xmlhttprequest"]
+    }
+  }
+]

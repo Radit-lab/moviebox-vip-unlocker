@@ -1,0 +1,96 @@
+{
+  "manifest_version": 3,
+  "name": "MovieBox VIP Unlocker",
+  "version": "1.4.0",
+  "description": "Auto-applies the X-Vip-Restrict fix, kills the paywall modal/trial bar, and upgrades playback to 1080p on MovieBox and all mirror domains. Personal-use.",
+  "permissions": ["declarativeNetRequest", "storage"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "host_permissions": [
+    "*://themoviebox.xyz/*",
+    "*://*.themoviebox.xyz/*",
+    "*://h5-api.aoneroom.com/*",
+    "*://*.aoneroom.com/*",
+    "*://netfilm.world/*",
+    "*://*.netfilm.world/*",
+    "*://123movienow.cc/*",
+    "*://*.123movienow.cc/*",
+    "*://themoviebox.app/*",
+    "*://*.themoviebox.app/*",
+    "*://movieboxonline.net/*",
+    "*://*.movieboxonline.net/*",
+    "*://moviebox.co/*",
+    "*://*.moviebox.co/*",
+    "*://downloadmoviebox.com/*",
+    "*://*.downloadmoviebox.com/*"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "MOVIE BOX BYPASS BY RADIT",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "declarative_net_request": {
+    "rule_resources": [
+      {
+        "id": "ruleset_1",
+        "enabled": true,
+        "path": "rules.json"
+      }
+    ]
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://themoviebox.xyz/*",
+        "*://*.themoviebox.xyz/*",
+        "*://netfilm.world/*",
+        "*://*.netfilm.world/*",
+        "*://123movienow.cc/*",
+        "*://*.123movienow.cc/*",
+        "*://themoviebox.app/*",
+        "*://*.themoviebox.app/*",
+        "*://movieboxonline.net/*",
+        "*://*.movieboxonline.net/*",
+        "*://moviebox.co/*",
+        "*://*.moviebox.co/*",
+        "*://downloadmoviebox.com/*",
+        "*://*.downloadmoviebox.com/*"
+      ],
+      "js": ["inject.js"],
+      "run_at": "document_start",
+      "world": "MAIN"
+    },
+    {
+      "matches": [
+        "*://themoviebox.xyz/*",
+        "*://*.themoviebox.xyz/*",
+        "*://netfilm.world/*",
+        "*://*.netfilm.world/*",
+        "*://123movienow.cc/*",
+        "*://*.123movienow.cc/*",
+        "*://themoviebox.app/*",
+        "*://*.themoviebox.app/*",
+        "*://movieboxonline.net/*",
+        "*://*.movieboxonline.net/*",
+        "*://moviebox.co/*",
+        "*://*.moviebox.co/*",
+        "*://downloadmoviebox.com/*",
+        "*://*.downloadmoviebox.com/*"
+      ],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ]
+}
