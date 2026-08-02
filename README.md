@@ -1,6 +1,6 @@
 # MovieBox VIP Unlocker (personal-use extension)
 
-Auto-applies the verified MovieBox playback fix so you don't touch DevTools:
+Stops me from having to open DevTools every single time I want to watch something. Does three things automatically:
 
 1. **Stream unlock** — rewrites `X-Vip-Restrict` to `0` on every `/subject/play` request (via `declarativeNetRequest`), on both `themoviebox.xyz` and `h5-api.aoneroom.com`.
 2. **Paywall kill** — removes the "Unlock Premium Benefits" modal and the trial countdown bar as soon as they appear, and resumes playback if the trial handler paused it.

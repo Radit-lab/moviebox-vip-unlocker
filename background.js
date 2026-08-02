@@ -1,6 +1,7 @@
-// MOVIE BOX BYPASS BY RADIT — background service worker
-// Enables/disables the DNR ruleset so the master toggle really turns the
-// header rewrite off at the network layer, not just the content script.
+// background service worker
+// enables/disables the DNR ruleset so the toggle actually kills the
+// header rewrite at the network level, not just the DOM stuff.
+// without this "off" was a lie in earlier versions lol
 const KEY = 'mbBypassEnabled';
 const RULESET = 'ruleset_1';
 
@@ -15,20 +16,21 @@ function applyState(enabled) {
   }
 }
 
-// Default ON on install/startup
+// default ON on install
 chrome.runtime.onInstalled.addListener(function () {
   chrome.storage.local.get(KEY, function (data) {
     applyState(data[KEY] !== false);
   });
 });
 
+// and on browser startup (service workers get killed by chrome)
 chrome.runtime.onStartup.addListener(function () {
   chrome.storage.local.get(KEY, function (data) {
     applyState(data[KEY] !== false);
   });
 });
 
-// React to popup toggle changes
+// popup toggled -> apply immediately
 chrome.storage.onChanged.addListener(function (changes, area) {
   if (area === 'local' && changes[KEY]) {
     applyState(changes[KEY].newValue !== false);
