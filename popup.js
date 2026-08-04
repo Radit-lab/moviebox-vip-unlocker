@@ -10,7 +10,7 @@ function setStatus(on) {
 function refreshDots() {
   // dots are basically decoration, just mirror the stored state
   const on = toggle.checked;
-  const dots = ['sStream', 'sTrial', 's1080'];
+  const dots = ['sStream', 'sTrial', 's1080', 'sAds'];
   dots.forEach(function (id) {
     const el = document.getElementById(id);
     if (el) { el.className = on ? 'dot-ok' : 'dot-off'; }

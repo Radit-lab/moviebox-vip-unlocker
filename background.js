@@ -1,15 +1,16 @@
 // background service worker
-// enables/disables the DNR ruleset so the toggle actually kills the
-// header rewrite at the network level, not just the DOM stuff.
+// enables/disables the DNR rulesets so the toggle actually kills the
+// header rewrite + ad blocking at the network level, not just the DOM stuff.
 // without this "off" was a lie in earlier versions lol
 const KEY = 'mbBypassEnabled';
-const RULESET = 'ruleset_1';
+// ruleset_1 = vip header rewrite, adblock = verified ad/popunder/tracker block rules
+const RULESETS = ['ruleset_1', 'adblock'];
 
 function applyState(enabled) {
   try {
     return chrome.declarativeNetRequest.updateEnabledRulesets({
-      enableRulesetIds: enabled ? [RULESET] : [],
-      disableRulesetIds: enabled ? [] : [RULESET]
+      enableRulesetIds: enabled ? RULESETS : [],
+      disableRulesetIds: enabled ? [] : RULESETS
     });
   } catch (e) {
     return Promise.resolve();

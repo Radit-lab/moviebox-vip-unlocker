@@ -1,0 +1,172 @@
+[
+  {
+    "id": 101,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "requestDomains": ["pufted.com"],
+      "initiatorDomains": ["themoviebox.xyz", "netfilm.world", "123movienow.cc", "themoviebox.app", "movieboxonline.net", "moviebox.co", "downloadmoviebox.com"],
+      "resourceTypes": ["script", "image", "xmlhttprequest", "media", "sub_frame", "ping", "websocket", "other"]
+    }
+  },
+  {
+    "id": 102,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "requestDomains": ["tesorf.com"],
+      "initiatorDomains": ["themoviebox.xyz", "netfilm.world", "123movienow.cc", "themoviebox.app", "movieboxonline.net", "moviebox.co", "downloadmoviebox.com"],
+      "resourceTypes": ["script", "image", "xmlhttprequest", "media", "sub_frame", "ping", "websocket", "other"]
+    }
+  },
+  {
+    "id": 103,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "requestDomains": ["surlyplants.com"],
+      "initiatorDomains": ["themoviebox.xyz", "netfilm.world", "123movienow.cc", "themoviebox.app", "movieboxonline.net", "moviebox.co", "downloadmoviebox.com"],
+      "resourceTypes": ["script", "image", "xmlhttprequest", "media", "sub_frame", "ping", "websocket", "other"]
+    }
+  },
+  {
+    "id": 104,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "requestDomains": ["allowtohimselfew.org"],
+      "initiatorDomains": ["themoviebox.xyz", "netfilm.world", "123movienow.cc", "themoviebox.app", "movieboxonline.net", "moviebox.co", "downloadmoviebox.com"],
+      "resourceTypes": ["script", "image", "xmlhttprequest", "media", "sub_frame", "ping", "websocket", "other"]
+    }
+  },
+  {
+    "id": 105,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "requestDomains": ["droomhesaidsoftly.org"],
+      "initiatorDomains": ["themoviebox.xyz", "netfilm.world", "123movienow.cc", "themoviebox.app", "movieboxonline.net", "moviebox.co", "downloadmoviebox.com"],
+      "resourceTypes": ["script", "image", "xmlhttprequest", "media", "sub_frame", "ping", "websocket", "other"]
+    }
+  },
+  {
+    "id": 106,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "requestDomains": ["zoologyfibre.com"],
+      "initiatorDomains": ["themoviebox.xyz", "netfilm.world", "123movienow.cc", "themoviebox.app", "movieboxonline.net", "moviebox.co", "downloadmoviebox.com"],
+      "resourceTypes": ["script", "image", "xmlhttprequest", "media", "sub_frame", "ping", "websocket", "other"]
+    }
+  },
+  {
+    "id": 107,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "requestDomains": ["workdeadlinededicate.com"],
+      "initiatorDomains": ["themoviebox.xyz", "netfilm.world", "123movienow.cc", "themoviebox.app", "movieboxonline.net", "moviebox.co", "downloadmoviebox.com"],
+      "resourceTypes": ["script", "image", "xmlhttprequest", "media", "sub_frame", "ping", "websocket", "other"]
+    }
+  },
+  {
+    "id": 108,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "requestDomains": ["thedirecthor.com"],
+      "initiatorDomains": ["themoviebox.xyz", "netfilm.world", "123movienow.cc", "themoviebox.app", "movieboxonline.net", "moviebox.co", "downloadmoviebox.com"],
+      "resourceTypes": ["script", "image", "xmlhttprequest", "media", "sub_frame", "ping", "websocket", "other"]
+    }
+  },
+  {
+    "id": 109,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "requestDomains": ["fizzyacerbitymellow.com"],
+      "initiatorDomains": ["themoviebox.xyz", "netfilm.world", "123movienow.cc", "themoviebox.app", "movieboxonline.net", "moviebox.co", "downloadmoviebox.com"],
+      "resourceTypes": ["script", "image", "xmlhttprequest", "media", "sub_frame", "ping", "websocket", "other"]
+    }
+  },
+  {
+    "id": 110,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "requestDomains": ["portalfluently.com"],
+      "initiatorDomains": ["themoviebox.xyz", "netfilm.world", "123movienow.cc", "themoviebox.app", "movieboxonline.net", "moviebox.co", "downloadmoviebox.com"],
+      "resourceTypes": ["script", "image", "xmlhttprequest", "media", "sub_frame", "ping", "websocket", "other"]
+    }
+  },
+  {
+    "id": 111,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "requestDomains": ["ukankingwithea.com"],
+      "initiatorDomains": ["themoviebox.xyz", "netfilm.world", "123movienow.cc", "themoviebox.app", "movieboxonline.net", "moviebox.co", "downloadmoviebox.com"],
+      "resourceTypes": ["script", "image", "xmlhttprequest", "media", "sub_frame", "ping", "websocket", "other"]
+    }
+  },
+  {
+    "id": 112,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "requestDomains": ["spendsdetachment.com"],
+      "initiatorDomains": ["themoviebox.xyz", "netfilm.world", "123movienow.cc", "themoviebox.app", "movieboxonline.net", "moviebox.co", "downloadmoviebox.com"],
+      "resourceTypes": ["script", "image", "xmlhttprequest", "media", "sub_frame", "ping", "websocket", "other"]
+    }
+  },
+  {
+    "id": 113,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "requestDomains": ["dc9xwpjprguup.cloudfront.net"],
+      "initiatorDomains": ["themoviebox.xyz", "netfilm.world", "123movienow.cc", "themoviebox.app", "movieboxonline.net", "moviebox.co", "downloadmoviebox.com"],
+      "resourceTypes": ["script", "image", "xmlhttprequest", "media", "sub_frame", "ping", "websocket", "other"]
+    }
+  },
+  {
+    "id": 114,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "requestDomains": ["show-sb.com"],
+      "initiatorDomains": ["themoviebox.xyz", "netfilm.world", "123movienow.cc", "themoviebox.app", "movieboxonline.net", "moviebox.co", "downloadmoviebox.com"],
+      "resourceTypes": ["script", "image", "xmlhttprequest", "media", "sub_frame", "ping", "websocket", "other"]
+    }
+  },
+  {
+    "id": 115,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "requestDomains": ["redgarto.com"],
+      "initiatorDomains": ["themoviebox.xyz", "netfilm.world", "123movienow.cc", "themoviebox.app", "movieboxonline.net", "moviebox.co", "downloadmoviebox.com"],
+      "resourceTypes": ["script", "image", "xmlhttprequest", "media", "sub_frame", "ping", "websocket", "other"]
+    }
+  },
+  {
+    "id": 116,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "requestDomains": ["googletagmanager.com"],
+      "initiatorDomains": ["themoviebox.xyz", "netfilm.world", "123movienow.cc", "themoviebox.app", "movieboxonline.net", "moviebox.co", "downloadmoviebox.com"],
+      "resourceTypes": ["script", "image", "xmlhttprequest", "media", "sub_frame", "ping", "websocket", "other"]
+    }
+  },
+  {
+    "id": 117,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "requestDomains": ["google-analytics.com"],
+      "initiatorDomains": ["themoviebox.xyz", "netfilm.world", "123movienow.cc", "themoviebox.app", "movieboxonline.net", "moviebox.co", "downloadmoviebox.com"],
+      "resourceTypes": ["script", "image", "xmlhttprequest", "media", "sub_frame", "ping", "websocket", "other"]
+    }
+  }
+]

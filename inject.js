@@ -19,6 +19,53 @@
     }
   }
 
+  // --- popup / popunder blocker (v1.5.0) ---
+  // only verified ad/popunder domains from captured network evidence. the
+  // block only happens for window.open() targets on these domains while the
+  // master toggle is ON. when OFF the original window.open is restored.
+  const AD_DOMAINS = [
+    'pufted.com', 'tesorf.com', 'surlyplants.com', 'allowtohimselfew.org',
+    'droomhesaidsoftly.org', 'zoologyfibre.com', 'workdeadlinededicate.com',
+    'thedirecthor.com', 'fizzyacerbitymellow.com', 'portalfluently.com',
+    'ukankingwithea.com', 'spendsdetachment.com', 'dc9xwpjprguup.cloudfront.net',
+    'show-sb.com', 'redgarto.com'
+  ];
+
+  function isAdUrl(u) {
+    try {
+      const h = new URL(u, location.href).hostname.toLowerCase();
+      return AD_DOMAINS.some((d) => h === d || h.endsWith('.' + d));
+    } catch (e) {
+      return false;
+    }
+  }
+
+  let origOpen = null;
+  let popupPatched = false;
+
+  function installPopupBlocker() {
+    if (popupPatched || !window.open) return;
+    popupPatched = true;
+    origOpen = window.open.bind(window);
+    window.open = function (url, name, features) {
+      if (isActive() && isAdUrl(url || '')) return null; // popunder killed
+      return origOpen(url, name, features);
+    };
+  }
+
+  function restorePopupBlocker() {
+    if (popupPatched && origOpen) {
+      window.open = origOpen;
+      popupPatched = false;
+      origOpen = null;
+    }
+  }
+
+  function setActive(on) {
+    if (on) installPopupBlocker();
+    else restorePopupBlocker();
+  }
+
   function rewriteDetail(json) {
     try {
       const j = JSON.parse(json);
@@ -94,4 +141,12 @@
   }
 
   install();
+
+  // single permanent bridge listener from content.js (MAIN world can't hear
+  // chrome.storage, so content.js dispatches a CustomEvent). it installs the
+  // popup blocker when ON and restores the real window.open when OFF.
+  window.addEventListener('mbBypassState', function (e) {
+    setActive(!!(e && e.detail && e.detail.enabled));
+  });
+  setActive(isActive());
 })();

@@ -11,8 +11,7 @@
   let lastUpgradedKey = null;
 
   // --- paywall / trial bar watchdog ---
-  function killPaywall() {
-    let killed = 0;
+  function killPaywall() {    let killed = 0;
 
     // modal first. the site changes class names from time to time so this
     // is a bit of a shotgun approach, whatever works
@@ -43,6 +42,29 @@
         v.play().catch(function () { });
       }
     }
+    return killed;
+  }
+
+  // --- ad overlay cleanup (v1.5.0) ---
+  // only verified ad containers get removed. currently this targets the
+  // browser-notification ad stack (cdn.show-sb.com / cdn.redgarto.com) that
+  // was observed live on themoviebox.xyz: a fake "(1) New Message!" toast
+  // rendered as a fixed overlay with inline z-index 2147483646. nothing else
+  // in the DOM gets touched, so player controls / subtitles / episode lists /
+  // nav are never at risk.
+  function killAdOverlays() {
+    let killed = 0;
+    document.querySelectorAll('[style*="z-index: 2147483646"], [style*="z-index:2147483646"]').forEach((el) => {
+      // only remove the topmost element of each overlay subtree so we don't
+      // leave orphaned fragments behind
+      let p = el.parentElement;
+      while (p) {
+        if (/z-index\s*:\s*2147483646/i.test(p.getAttribute('style') || '')) return;
+        p = p.parentElement;
+      }
+      el.remove();
+      killed++;
+    });
     return killed;
   }
 
@@ -141,13 +163,27 @@
     try { localStorage.setItem(LS_KEY, on ? '1' : '0'); } catch (e) { }
   }
 
+  // inject.js runs in MAIN world and can't hear chrome.storage, so tell it
+  // directly through a CustomEvent on the shared window. it uses this to
+  // install/restore the window.open popup blocker.
+  function broadcastState(on) {
+    try {
+      window.dispatchEvent(new CustomEvent('mbBypassState', { detail: { enabled: !!on } }));
+    } catch (e) { }
+  }
+
   // --- start / stop all activity ---
-  function start() {
+  function sweep() {
     killPaywall();
+    killAdOverlays();
+  }
+
+  function start() {
+    sweep();
     if (observer) observer.disconnect();
-    observer = new MutationObserver(killPaywall);
+    observer = new MutationObserver(sweep);
     observer.observe(document.documentElement, { childList: true, subtree: true });
-    timers.push(setInterval(killPaywall, 800));
+    timers.push(setInterval(sweep, 800));
     timers.push(setInterval(tryUpgrade, 3000));
     setTimeout(tryUpgrade, 2500);
     try {
@@ -166,6 +202,7 @@
 
   function applyState() {
     mirrorState(enabled);
+    broadcastState(enabled);
     if (enabled) start();
     else stop();
   }
