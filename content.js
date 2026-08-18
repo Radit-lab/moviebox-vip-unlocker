@@ -33,6 +33,20 @@
     document.querySelectorAll('[data-vip-locked]').forEach((el) => el.removeAttribute('data-vip-locked'));
     document.querySelectorAll('.is-vip-locked').forEach((el) => el.classList.remove('is-vip-locked'));
 
+    // the new premium gate (v1.7.1): when the site decides a title is
+    // premium-only it renders <section class="premium-content-gate"> inside
+    // .player-container instead of the video player. kill the whole gate so
+    // the player (or our own stream swap) can take the space.
+    document.querySelectorAll('section.premium-content-gate, [class*=premium-content-gate]').forEach((g) => {
+      // only remove if it sits inside the player area, never page-wide sections
+      if (g.closest('.player-container') || /premium-content-gate/i.test(g.className || '')) {
+        g.remove();
+        killed++;
+      }
+    });
+    // some variants render the gate as a modal-like overlay with text
+    document.querySelectorAll('[aria-labelledby*=premium-content-gate]').forEach((g) => { g.remove(); killed++; });
+
     // premium badge icons. the site renders these as <img> tags with the
     // crown/lock badge baked into a base64 svg (alt="premium", fixed 20px
     // badge positioned at the top corner of premium thumbnails). once the
@@ -173,6 +187,41 @@
     if (v && v.readyState >= 1) upgradeTo1080();
   }
 
+  // v1.7.1: when the site rendered the premium gate instead of the player,
+  // killing the gate may leave no video element at all. if the gate was just
+  // removed and the detail says streams should exist, ask the play API
+  // ourselves and mount the stream directly into the player area.
+  async function forcePlayerMount() {
+    const v = document.querySelector('video');
+    if (v) return; // site mounted its own player, upgradeTo1080 handles it
+    const gateGone = document.querySelector('section.premium-content-gate, [class*=premium-content-gate]') === null;
+    if (!gateGone) return;
+    const t = currentTarget();
+    if (!t) return;
+    try {
+      const dp = encodeURIComponent((location.pathname || '').replace(/^\//, ''));
+      const url = API_BASE + '/subject/play?subjectId=' + t.subjectId + '&se=' + t.se + '&ep=' + t.ep + '&detailPath=' + dp + '&streamSignType=1';
+      const r = await fetch(url, { headers: { accept: 'application/json' } });
+      const j = await r.json();
+      const d = (j && j.data) || {};
+      const streams = d.streams || [];
+      const s1080 = streams.find((x) => String(x.resolutions) === '1080' && x.url) ||
+                    streams.find((x) => x.url);
+      if (!s1080) return; // still no streams (session-gated); nothing more we can do
+
+      // find the player container and drop a real <video> into it
+      const host = document.querySelector('.player-container') || document.querySelector('video, .video-wrap')?.parentElement;
+      if (!host) return;
+      const vid = document.createElement('video');
+      vid.src = s1080.url;
+      vid.controls = true;
+      vid.autoplay = true;
+      vid.style.cssText = 'width:100%;max-height:740px;background:#000;aspect-ratio:16/9';
+      host.appendChild(vid);
+      vid.play().catch(function () { });
+    } catch (e) { /* next poll */ }
+  }
+
   // --- toggle bridge ---
   // content script runs in the isolated world so it CAN use chrome.storage,
   // but inject.js runs in MAIN world and can't. so we mirror the state into
@@ -205,7 +254,9 @@
     observer.observe(document.documentElement, { childList: true, subtree: true });
     timers.push(setInterval(sweep, 800));
     timers.push(setInterval(tryUpgrade, 3000));
+    timers.push(setInterval(forcePlayerMount, 5000));
     setTimeout(tryUpgrade, 2500);
+    setTimeout(forcePlayerMount, 6000);
     try {
       window.addEventListener('storage', function (e) {
         if (e.key === 'playHistory') lastUpgradedKey = null;
