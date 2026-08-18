@@ -1,0 +1,24 @@
+name: Build release zip
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build extension zip
+        run: bash scripts/build-release.sh release
+
+      - name: Create GitHub release with zip asset
+        uses: softprops/action-gh-release@v2
+        with:
+          files: moviebox-vip-unlocker.zip
+          generate_release_notes: true

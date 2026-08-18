@@ -11,8 +11,12 @@ try {
   }
 } catch (e) { }
 
+function setStatusText(t) {
+  statusText.textContent = t;
+}
+
 function setStatus(on) {
-  statusText.textContent = on ? 'Active on MovieBox domains' : 'Paused - bypass off';
+  setStatusText(on ? 'Active on MovieBox domains' : 'Paused - bypass off');
 }
 
 function refreshDots() {
@@ -26,11 +30,24 @@ function refreshDots() {
 }
 
 // load saved state (default ON)
-chrome.storage.local.get(KEY, function (data) {
+chrome.storage.local.get([KEY, 'mbUpdateNote'], function (data) {
   const on = data[KEY] !== false;
   toggle.checked = on;
   setStatus(on);
   refreshDots();
+  // show the updater's state if it left a note
+  const note = data.mbUpdateNote;
+  if (note === 'updating') setStatusText('Applying update… restart browser after');
+  else if (note === 'ready') setStatusText('Update downloaded to Downloads folder');
+});
+
+// react to updater notes appearing while the popup is open
+chrome.storage.onChanged.addListener(function (changes, area) {
+  if (area === 'local' && changes.mbUpdateNote) {
+    const note = changes.mbUpdateNote.newValue;
+    if (note === 'updating') setStatusText('Applying update… restart browser after');
+    else if (note === 'ready') setStatusText('Update downloaded to Downloads folder');
+  }
 });
 
 // save when the user flips it

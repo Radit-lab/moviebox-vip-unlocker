@@ -70,10 +70,18 @@ Click the extension icon to open the popup. One toggle controls everything — f
 | `background.js` | Enables/disables everything from the toggle |
 | `popup.*` | The little popup UI |
 | `scripts/` | One-line installers + the release zip builder |
+| `.github/` | GitHub Action that builds the release zip on every tag |
 
-## 🔄 Updating
+## 🔄 Updating (automatic)
 
-Re-run the same install command for your OS — it replaces the files in place. Then in `chrome://extensions` click the **reload icon** on the extension card (or just restart the browser).
+**You don't have to do anything anymore.** The extension checks the GitHub Releases page every 4 hours. When you (the owner) push a new tagged release, the GitHub Action builds the zip automatically — and the extension on every user's browser downloads it and swaps its own files in place, then reloads itself. Your toggle setting survives the swap.
+
+Two small fallbacks:
+
+- On the very first run after a fresh install, the updater needs a browser wake-up (open Chrome) to start checking
+- If Chrome blocks the file swap (rare), the zip lands in your **Downloads** folder instead and the popup shows a one-line note — just re-run the install command for your OS and it applies in seconds
+
+If you ever want to force it: re-run the one-line install command for your OS and click the reload icon on the extension card in `chrome://extensions`.
 
 ## 📦 Tech
 
@@ -81,6 +89,7 @@ Manifest V3 · JavaScript · Chrome / Edge / Brave
 
 ## 📄 Changelog
 
+**v1.7.0** — Automatic updates. The extension now checks GitHub Releases every 4 hours and applies new versions itself (file swap + self-reload), so users never have to re-install. Release builds are now automatic via GitHub Actions. Toggle setting survives every update.
 **v1.6.1** — Easy install. One-line installers for Windows (PowerShell) and macOS that download the latest release, extract it, and open the extensions page with the folder path on your clipboard. Added the release zip builder and an MIT license. Premium badge cleanup: the embedded crown/lock badge icons (base64 SVG images rendered on premium thumbnails) are now removed from the DOM along with any empty wrapper left behind.
 **v1.6.0** — Consolidated the adblock ruleset from 17 rules down to a single regex rule (smaller, faster, easier to keep in sync). Synced the popup/popunder blocker domain list with the DNR blocklist (covers all `show-sb.com` / `redgarto.com` subdomains and toast CDN origins). Tightened the `/detail` response rewrite so already-unlocked responses are passed through untouched. Popup version string now reads dynamically from the manifest instead of being hardcoded.
 **v1.5.0** — Ad blocking layer. Verified ad/popunder/tracker domains blocked via DNR (scoped to MovieBox mirrors only), popup/popunder windows blocked in the page, fake "New Message!" notification overlays removed. Everything follows the master toggle.
