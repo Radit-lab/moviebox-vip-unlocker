@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "MovieBox VIP Unlocker",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "description": "Auto-applies the X-Vip-Restrict fix, kills the paywall modal/trial bar, upgrades playback to 1080p, and blocks verified ads/popunders/trackers on MovieBox and all mirror domains. Personal-use.",
   "permissions": ["declarativeNetRequest", "storage"],
   "background": {

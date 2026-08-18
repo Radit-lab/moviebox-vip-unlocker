@@ -19,16 +19,19 @@
     }
   }
 
-  // --- popup / popunder blocker (v1.5.0) ---
+  // --- popup / popunder blocker (v1.5.0 / v1.6.0) ---
   // only verified ad/popunder domains from captured network evidence. the
   // block only happens for window.open() targets on these domains while the
   // master toggle is ON. when OFF the original window.open is restored.
+  // matches the declarative net request blocklist in adblock.json, and now
+  // covers the show-sb / redgarto toast cdns + subdomains instead of only the
+  // one hardcoded cloudfront bucket
   const AD_DOMAINS = [
     'pufted.com', 'tesorf.com', 'surlyplants.com', 'allowtohimselfew.org',
     'droomhesaidsoftly.org', 'zoologyfibre.com', 'workdeadlinededicate.com',
     'thedirecthor.com', 'fizzyacerbitymellow.com', 'portalfluently.com',
-    'ukankingwithea.com', 'spendsdetachment.com', 'dc9xwpjprguup.cloudfront.net',
-    'show-sb.com', 'redgarto.com'
+    'ukankingwithea.com', 'spendsdetachment.com',
+    'show-sb.com', 'redgarto.com', 'cloudfront.net'
   ];
 
   function isAdUrl(u) {
@@ -69,8 +72,10 @@
   function rewriteDetail(json) {
     try {
       const j = JSON.parse(json);
-      if (j && j.data && j.data.accessStrategy) {
-        const s = j.data.accessStrategy;
+      const s = j && j.data && j.data.accessStrategy;
+      if (s && typeof s === 'object') {
+        // only rewrite once per response; if already unlocked, pass through
+        if (s.previewSeconds === 0 && s.ruleType === 0) return json;
         if (typeof s.previewSeconds === 'number' && s.previewSeconds > 0) {
           s.previewSeconds = 0; // 5 min clamp -> gone
         }

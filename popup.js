@@ -3,6 +3,14 @@ const KEY = 'mbBypassEnabled';
 const toggle = document.getElementById('masterToggle');
 const statusText = document.getElementById('statusText');
 
+// pull the version from the manifest instead of hardcoding it
+try {
+  const v = document.getElementById('versionText');
+  if (v && chrome.runtime && chrome.runtime.getManifest) {
+    v.textContent = 'v' + chrome.runtime.getManifest().version;
+  }
+} catch (e) { }
+
 function setStatus(on) {
   statusText.textContent = on ? 'Active on MovieBox domains' : 'Paused - bypass off';
 }

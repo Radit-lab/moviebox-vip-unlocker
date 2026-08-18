@@ -51,6 +51,7 @@ Manifest V3 · JavaScript · Chrome / Edge / Brave
 
 ## 📄 Changelog
 
+**v1.6.0** — Consolidated the adblock ruleset from 17 rules down to a single regex rule (smaller, faster, easier to keep in sync). Synced the popup/popunder blocker domain list with the DNR blocklist (covers all `show-sb.com` / `redgarto.com` subdomains and toast CDN origins). Tightened the `/detail` response rewrite so already-unlocked responses are passed through untouched. Popup version string now reads dynamically from the manifest instead of being hardcoded.
 **v1.5.0** — Ad blocking layer. Verified ad/popunder/tracker domains blocked via DNR (scoped to MovieBox mirrors only), popup/popunder windows blocked in the page, fake "New Message!" notification overlays removed. Everything follows the master toggle.
 **v1.4.0** — Fixed the toggle so OFF actually disables everything. Added service worker control.
 **v1.3.0** — Popup UI + master toggle + multi-mirror support.
