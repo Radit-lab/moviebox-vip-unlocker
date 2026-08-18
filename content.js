@@ -33,6 +33,26 @@
     document.querySelectorAll('[data-vip-locked]').forEach((el) => el.removeAttribute('data-vip-locked'));
     document.querySelectorAll('.is-vip-locked').forEach((el) => el.classList.remove('is-vip-locked'));
 
+    // premium badge icons. the site renders these as <img> tags with the
+    // crown/lock badge baked into a base64 svg (alt="premium", fixed 20px
+    // badge positioned at the top corner of premium thumbnails). once the
+    // VIP restriction is removed there is nothing left for the badge to say,
+    // so kill it and any sibling wrapper that exists only to hold it.
+    document.querySelectorAll('img[alt="premium"], img[src*="FFDFB0"]').forEach((img) => {
+      const src = img.getAttribute('src') || '';
+      const looksLikeBadge = img.alt === 'premium' ||
+        /width=["']?20["']?.*height=["']?20/.test(src) ||
+        /fill=["']#FFDFB0["']/.test(src);
+      if (!looksLikeBadge) return;
+      const parent = img.parentElement;
+      img.remove();
+      killed++;
+      // if the wrapper is now an empty positioned shell, remove it too
+      if (parent && parent !== document.body && !parent.children.length && !parent.textContent.trim()) {
+        parent.remove();
+      }
+    });
+
     // the trial handler pauses the video around the 5 min mark, nudge it
     // back so it keeps playing. the -2s rewind is ugly but it works
     if (killed > 0) {
